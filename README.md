@@ -40,15 +40,6 @@ Access the application in your browser at http://localhost:5000.
 - Flask
 - HTML/CSS
 - JavaScript
-  
-## Folder Structure
-- app/: Contains the Flask application.
-- static/: Holds static files like CSS and JavaScript.
-- templates/: Contains HTML templates.
-- routes.py: Handles application routes.
-- __init__.py: Initializes the Flask app.
-- env/: Virtual environment folder.
-- run.py: Script to start the application.
 
 ## Acknowledgments
 
