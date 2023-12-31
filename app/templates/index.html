@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>YouTube Transcript Summarizer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+        h1 {
+            grid-column: 1 / span 2;
+            text-align: center;
+        }
+        form {
+            grid-column: 1 / span 2;
+            text-align: center;
+        }
+        textarea {
+            width: 100%;
+            height: 300px;
+            resize: none;
+        }
+    </style>
+    </style>
+</head>
+<body>
+    <h1>YouTube Transcript Summarizer</h1>
+    
+    <form action="/process-youtube-link" method="POST">
+        <label for="youtube_link">Enter YouTube Video Link:</label><br>
+        <input type="text" id="youtube_link" name="youtube_link"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <textarea id="transcript" name="transcript" readonly>
+        {% if transcript %}
+            {{ transcript }}
+        {% endif %}
+    </textarea>
+
+    <textarea id="summary" name="summary" readonly>
+        {% if summary %}
+            {{ summary }}
+        {% endif %}
+    </textarea>
+    <p>Total word count: {{ word_count }}</p>
+    <p>Summary word count: {{ word_count_summary }}</p>
+
+</body>
+</html>
