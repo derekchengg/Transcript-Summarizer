@@ -46,5 +46,5 @@ Access the application in your browser at http://localhost:5000.
 This project utilizes the following APIs and resources:
 
 - **Hugging Face Transformers:** Used for text summarization. [Link](https://huggingface.co/transformers/)
-- **YouTube Transcript API:** Accesses YouTube video transcripts. [Link]([https://developers.google.com/youtube/v3](https://pypi.org/project/youtube-transcript-api/))
+- **YouTube Transcript API:** Accesses YouTube video transcripts. [Link](https://pypi.org/project/youtube-transcript-api/)
 - **PyTorch and TorchVision:** Machine learning frameworks used in the summarization model. [Link](https://pytorch.org/)
