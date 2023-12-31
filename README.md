@@ -48,3 +48,8 @@ This project utilizes the following APIs and resources:
 - **Hugging Face Transformers:** Used for text summarization. [Link](https://huggingface.co/transformers/)
 - **YouTube Transcript API:** Accesses YouTube video transcripts. [Link](https://pypi.org/project/youtube-transcript-api/)
 - **PyTorch and TorchVision:** Machine learning frameworks used in the summarization model. [Link](https://pytorch.org/)
+
+## Upcoming Features
+
+- Copy to clipboard
+- Visibility of Status
