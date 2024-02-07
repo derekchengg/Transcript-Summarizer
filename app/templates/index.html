@@ -1,56 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>YouTube Transcript Summarizer</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            padding: 20px;
-        }
-        h1 {
-            grid-column: 1 / span 2;
-            text-align: center;
-        }
-        form {
-            grid-column: 1 / span 2;
-            text-align: center;
-        }
-        textarea {
-            width: 100%;
-            height: 300px;
-            resize: none;
-        }
-    </style>
-    </style>
-</head>
-<body>
-    <h1>YouTube Transcript Summarizer</h1>
-    
-    <form action="/process-youtube-link" method="POST">
-        <label for="youtube_link">Enter YouTube Video Link:</label><br>
-        <input type="text" id="youtube_link" name="youtube_link"><br><br>
-        <input type="submit" value="Submit">
-    </form>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>YouTube Transcript Summarizer</title>
+        <link rel="stylesheet" href="../static/searchbar.css">
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                document.querySelector('form').addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    document.getElementById('loader').classList.remove('hidden');
 
-    <textarea id="transcript" name="transcript" readonly>
-        {% if transcript %}
-            {{ transcript }}
-        {% endif %}
-    </textarea>
+                    var formData = new FormData(this);
+                    fetch('/process-youtube-link', {
+                        method: 'POST',
+                        body: formData
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById('title').textContent = "Title: " + data.title;
+                            document.getElementById('originalText').textContent = data.transcript;
+                            document.getElementById('summarized').textContent = data.summary;
+                            document.getElementById('word_count').textContent = "Word Count: " + data.word_count;
+                            document.getElementById('word_count_summary').textContent = "Word Count: " + data.word_count_summary;
+                            document.getElementById('duration').textContent = "Executed in: " + data.duration + " seconds";
 
-    <textarea id="summary" name="summary" readonly>
-        {% if summary %}
-            {{ summary }}
-        {% endif %}
-    </textarea>
-    <p>Total word count: {{ word_count }}</p>
-    <p>Summary word count: {{ word_count_summary }}</p>
+                            var ytLink = document.getElementById('link');
+                            ytLink.getAttribute("href");
+                            ytLink.setAttribute("href", document.getElementById('youtube_link').value);
+                            ytLink.textContent = document.getElementById('youtube_link').value;
 
-</body>
-</html>
+                            document.getElementById('copyClipboard').classList.remove('hidden');
+                            document.getElementById('copyClipboard2').classList.remove('hidden');
+
+                            document.getElementById('youtube_link').value = '';
+                            document.getElementById('loader').classList.add('hidden');
+                        })
+                });
+
+                document.getElementById('copyClipboard').addEventListener('click', function () {
+                    var textToCopy = document.getElementById('originalText').value;
+                    navigator.clipboard.writeText(textToCopy).then(function () {
+                        console.log('Original Text copied to clipboard');
+                    }).catch(function (error) {
+                        console.error('Error copying original text: ', error);
+                    });
+
+                    var button = this;
+                    var originalSVG = button.innerHTML;
+                    button.innerHTML = 'Copied!';
+                    setTimeout(function() {
+                        button.innerHTML = originalSVG;
+                    }, 3000);
+                    
+                });
+
+                document.getElementById('copyClipboard2').addEventListener('click', function () {
+                    var textToCopy = document.getElementById('summarized').value;
+                    navigator.clipboard.writeText(textToCopy).then(function () {
+                        console.log('Summarized copied to clipboard');
+                    }).catch(function (error) {
+                        console.error('Error copying summarized text: ', error);
+                    });
+
+                    var button = this;
+                    var originalSVG = button.innerHTML;
+                    button.innerHTML = 'Copied!';
+                    setTimeout(function() {
+                        button.innerHTML = originalSVG;
+                    }, 3000);
+                });
+            });
+        </script>
+        <script src="https://cdn.tailwindcss.com"></script>
+
+    </head>
+    <body class="bg-slate-100">
+        <h1 class="text-black text-4xl font-bold text-center pt-20 my-4">
+            YouTube Transcript Summarizer
+        </h1>
+
+        <!-- Form to input and submit YouTube video link -->
+        <center>
+            <div class="Card">
+                <div class="CardInner">
+                    <form action="/process-youtube-link" method="POST"
+                        onsubmit="return showLoadingIndicator()">
+                        <label for="youtube_link">
+                            Enter YouTube Video Link:
+                        </label>
+                        <div
+                            class="container flex flex-col items-center space-y-2">
+                            <div class="InputContainer">
+                                <input type="text" id="youtube_link"
+                                    name="youtube_link"
+                                    placeholder="Paste YouTube link here..."
+                                    required />
+                            </div>
+                            <span class="pb-1"></span>
+                            <button
+                                class="text-center bg-blue-500 text-white rounded w-40 h-12">
+                                Summarize
+                            </button>
+                            <span class="pb-1"></span>
+                            <div
+                                class="hidden inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                role="status" id="loader">
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </center>
+
+        <center><h2 class="text-black text-2xl font-bold text-center pt-5 my-4"
+                id="title"></h2></center>
+        <center><a href id="link"
+                class="text-blue-600 text-1xl underline"></a></center>
+
+        <!-- Display area for original and summarized text -->
+        <div class="flex justify-center container mx-auto p-5">
+            <div class="bg-slate-200 shadow p-5 rounded-lg mb-4 w-3/4">
+                <div
+                    class="font-mono text-center text-sm pb-5 text-gray-700 mt-4"
+                    id="duration"></div>
+                <div class="flex gap-4">
+                    <div class="flex-1 relative">
+                        <textarea id="originalText" rows="8"
+                            placeholder="The original text will appear here..."
+                            class="bg-slate-100 w-full p-4 text-base text-gray-700 bg-gray-100 rounded-xl border focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            readonly></textarea>
+
+                        <div
+                            class="text-center font-mono text-sm text-gray-700 mt-2"
+                            id="word_count">
+                            Word Count: 0
+                        </div>
+
+                        <button
+                            class="hidden flex items-center justify-center text-black rounded-xl absolute bottom-0 left-0 w-20 h-8 bg-slate-400"
+                            id="copyClipboard">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="black" class="w-6 h-6">
+                                <path stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="flex-1 relative">
+                        <textarea id="summarized" rows="8"
+                            placeholder="The summarized text will appear here..."
+                            class="bg-slate-100 w-full p-4 text-base text-gray-700 bg-gray-100 rounded-xl border focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            readonly></textarea>
+
+                        <div
+                            class="text-center font-mono text-sm text-gray-700 mt-2"
+                            id="word_count_summary">
+                            Word Count: 0
+                        </div>
+                        <button
+                            class="hidden flex items-center justify-center text-black rounded-xl absolute bottom-0 right-0 w-20 h-8 bg-slate-400"
+                            id="copyClipboard2">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="black" class="w-6 h-6">
+                                <path stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </html>

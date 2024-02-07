@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css?family=Orbitron&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Hind&display=swap');
+
+* {
+  -webkit-font-smoothing: antialiased;
+  color: #acbdce;
+}
+
+:root {
+  --border-radius: 10px;
+}
+
+.Card {
+  margin-top: 3%;
+  padding: 1px;
+  border-radius: var(--border-radius);
+  background: linear-gradient(-67deg, rgba(200, 216, 231, .7), rgba(255, 255, 255, .8));
+  overflow: hidden;
+  box-shadow: 
+    -2px -2px 6px rgba(255, 255, 255, .6),
+    2px 2px 12px #c8d8e7;
+  width: 30%;
+}
+
+.CardInner {
+  padding: 16px;
+  background-color: #e2e9f4;
+  border-radius: var(--border-radius);
+}
+
+.container {
+  display: flex;
+}
+
+label {
+  font-family: "Hind", sans-serif;
+  display: block;
+  color: #3c4b66;
+  margin-bottom: 12px;
+  background: linear-gradient(45deg, #6b7b8f, #3c4b66);
+  -webkit-background-clip: text; 
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.InputContainer {
+  flex-grow: 1;
+  position: relative;
+  border-radius: var(--border-radius);
+  background-color: #e3edf7;
+  box-shadow: inset 1px 1px 3px #c5d4e3, inset -2px -2px 4px rgba(255, 255, 255, .7);
+}
+
+input[type="text"] {
+  background-color: transparent;
+  padding: 16px;
+  border: none;
+  display: block;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 600;
+  color: #a9b8c9;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input[type="text"]::placeholder {
+  color: #6d7f8f;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  color: #6d7f8f;
+}
+
+.hidden {
+  display: none;
+}
