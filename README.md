@@ -2,7 +2,7 @@
 
 This web application summarizes YouTube video transcripts using AI-powered models.
 
-### Home Page (Demo Below)
+### Home Page
 <img src="https://github.com/Hytherist/Transcript-Summarizer/blob/main/app/showcase/Youtube%20Transcript%20Home.png?raw=true" alt="alttext" width="600">
 
 ## Features
