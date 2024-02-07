@@ -2,6 +2,9 @@
 
 This web application summarizes YouTube video transcripts using AI-powered models.
 
+### Home Page (Demo Below)
+<img src="https://github.com/Hytherist/Transcript-Summarizer/blob/main/app/showcase/Youtube%20Transcript%20Home.png?raw=true" alt="alttext" width="600">
+
 ## Features
 
 - **Transcript Summarization:** This feature allows users to input a YouTube video link and receive a concise summary of its transcript. It's perfect for quickly grasping the main points without having to watch the entire video.
@@ -76,3 +79,6 @@ This project utilizes the following libraries:
 - os
 - dotenv
 - flask
+
+### Demo
+<img src="https://github.com/Hytherist/Transcript-Summarizer/blob/main/app/showcase/Demo%20Youtube%20Transcript.png?raw=true" alt="alttext" width="600">
