@@ -1,84 +1,84 @@
 # Transcript-Summarizer
 
-This web application summarizes YouTube video transcripts using AI-powered models.
-
-## Home Page
-<img src="https://github.com/Hytherist/Transcript-Summarizer/blob/main/app/showcase/Youtube%20Transcript%20Home.png?raw=true" alt="alttext" width="600">
+This web application summarizes YouTube video transcripts using AI-powered models, allowing users to quickly grasp key points without watching entire videos.
 
 ## Features
+- **Transcript Summarization:** Input a YouTube video link and receive a concise summary.
+- **Real-time Status Updates:** Users see a loading indicator while the summarization is in progress.
+- **Word Count Display:** Compare the length of the original transcript and the generated summary.
+- **Multiple Summarizations:** Summarize multiple YouTube links consecutively.
+- **Copy to Clipboard:** Easily copy the transcript and summarized text.
+- **Execution Time Display:** View the time taken for the summarization process.
 
-- **Transcript Summarization:** This feature allows users to input a YouTube video link and receive a concise summary of its transcript. It's perfect for quickly grasping the main points without having to watch the entire video.
-  
-- **Visibility of Status:** Users will be informed of the summarization progress through a loading indicator. This ensures transparency and lets users know that their request is being processed.
-  
-- **Word Count Display:** Users can easily track the total word count of the original transcript as well as the word count of the generated summary. This provides insight into the length and conciseness of the summary compared to the original content.
-  
-- **Continuous Summarizations:** The system supports consecutive summarizations, enabling users to input multiple YouTube links for summarization without interruption or limitation.
-  
-- **Copy to Clipboard:** Once the summary is generated, users have the option to conveniently copy both the original transcript and the summarized text to their clipboard. This facilitates easy sharing and reference of the summarized content.
-  
-- **Time Execution:** Users are provided with information regarding the time taken to perform the summarization process. This gives them an idea of the system's performance and allows them to manage their time effectively.
+## Technologies Used
+- **Backend:** Python, Flask
+- **Frontend:** HTML, CSS, JavaScript, Tailwind CSS
+- **APIs & Libraries:**
+  - Hugging Face Transformers (for text summarization)
+  - YouTube Transcript API (for retrieving transcripts)
+  - PyTorch (for deep learning models)
 
 ## Installation
 
-1. Clone this repository.
-2. Set up a virtual environment (optional but recommended).
-```bash
-py -m venv env
+### 1️⃣ Clone the Repository
+```sh
+git clone https://github.com/yourusername/Transcript-Summarizer.git
+cd Transcript-Summarizer
 ```
-3. Install dependencies:
-```bash
-pip install flask
-pip install tranformers
-pip install youtube-transcript-api
-pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
+
+### 2️⃣ Create a Virtual Environment (Recommended)
+```sh
+python -m venv env
 ```
-### Run the application:
-```bash
-./env/Scripts/activate
+
+### 3️⃣ Activate the Virtual Environment
+- **Windows (CMD):**
+  ```sh
+  env\Scripts\activate
+  ```
+- **Mac/Linux:**
+  ```sh
+  source env/bin/activate
+  ```
+
+### 4️⃣ Install Dependencies
+```sh
+pip install --upgrade pip
+pip install flask transformers youtube-transcript-api torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+pip install python-dotenv
 ```
-```bash
+
+### 5️⃣ Set Up YouTube API Key
+This application requires a YouTube Data API key to fetch video transcripts.
+
+1. Obtain an API key from [Google Developers Console](https://developers.google.com/youtube/registering_an_application).
+2. Create a **`.env`** file in the root of your project and add:
+   ```sh
+   YOUTUBE_API_KEY="YOUR_API_KEY"
+   ```
+   Replace `YOUR_API_KEY` with your actual API key.
+
+### 6️⃣ Run the Application
+```sh
 python run.py
 ```
 
-4. Youtube Data API:
-You will need to obtain an API key from https://developers.google.com/youtube/v3
-
-### Input the API key into a .env file
-```bash 
-YOUTUBE_API_KEY="YOUR_API_KEY"
+The application will be available at:
+```
+http://localhost:5000
 ```
 
-Access the application in your browser at http://localhost:5000.
-
 ## Usage
-1) Enter a YouTube video link in the input field.
-2) Click the "Summarize" button to generate the transcript and summary.
-3) The original transcript and its summarized version will be displayed side by side.
-4) Users can then copy the transcript
-
-## Technologies Used
-- Python
-- Flask
-- HTML/CSS
-- JavaScript
-- Tailwind CSS
-- AJAX
+1. Enter a YouTube video link.
+2. Click the **Summarize** button.
+3. The original transcript and its summarized version will be displayed.
+4. Copy the text if needed.
 
 ## Acknowledgments
+- **Hugging Face Transformers** for text summarization
+- **YouTube Transcript API** for fetching transcripts
+- **Flask** for the web framework
 
-This project utilizes the following APIs:
+---
+**Enjoy fast and easy YouTube transcript summarization! 🚀**
 
-- **Hugging Face Transformers:** Used for text summarization. [Link](https://huggingface.co/transformers/)
-- **YouTube Transcript API:** Accesses YouTube video transcripts. [Link](https://pypi.org/project/youtube-transcript-api/)
-- **PyTorch and TorchVision:** Machine learning frameworks used in the summarization model. [Link](https://pytorch.org/)
-
-This project utilizes the following libraries:
-- time
-- requests
-- os
-- dotenv
-- flask
-
-## Demo
-<img src="https://github.com/Hytherist/Transcript-Summarizer/blob/main/app/showcase/Demo%20Youtube%20Transcript.png?raw=true" alt="alttext" width="600">
