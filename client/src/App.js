@@ -12,14 +12,14 @@ function App() {
     e.preventDefault();
     setLoading(true);
     setError('');
-    
+
     try {
-      const response = await axios.post('http://localhost:3000/api/videos/summarize', {
+      const response = await axios.post('/api/videos/summarize', {
         youtube_link: youtubeLink
       });
       setResult(response.data);
     } catch (err) {
-      setError('Error processing video: ' + err.message);
+      setError('Error processing video: ' + (err.response?.data?.message || err.message));
     } finally {
       setLoading(false);
     }
@@ -27,53 +27,107 @@ function App() {
 
   return (
     <div className="App">
-      <h1>YouTube Transcript Summarizer</h1>
-      
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={youtubeLink}
-          onChange={(e) => setYoutubeLink(e.target.value)}
-          placeholder="Enter YouTube URL..."
-          style={{width: '400px', padding: '10px', marginRight: '10px'}}
-          required
-        />
-        <button type="submit" disabled={loading}>
-          {loading ? 'Processing...' : 'Summarize'}
-        </button>
-      </form>
+      <div className="App-header">
+        <h1>YouTube Transcript Summarizer</h1>
 
-      {error && <div style={{color: 'red', margin: '20px'}}>{error}</div>}
-      
-      {result && (
-        <div style={{textAlign: 'left', maxWidth: '800px', margin: '20px auto'}}>
-          <h2>Results</h2>
-          <p><strong>Title:</strong> {result.title}</p>
-          <p><strong>Duration:</strong> {result.duration}</p>
-          <p><strong>Word Count:</strong> {result.word_count}</p>
-          <p><strong>Summary Word Count:</strong> {result.word_count_summary}</p>
-          
-          <div style={{marginTop: '20px'}}>
-            <h3>Summary</h3>
-            <textarea 
-              value={result.summary} 
-              readOnly 
-              rows="6" 
-              style={{width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px'}}
-            />
+        <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
+          <input
+            type="text"
+            value={youtubeLink}
+            onChange={(e) => setYoutubeLink(e.target.value)}
+            placeholder="Enter YouTube URL..."
+            style={{ 
+              width: '400px', 
+              padding: '10px', 
+              marginRight: '10px',
+              borderRadius: '4px',
+              border: '1px solid #ccc'
+            }}
+            required
+          />
+          <button 
+            type="submit" 
+            disabled={loading}
+            style={{
+              padding: '10px 20px',
+              borderRadius: '4px',
+              border: 'none',
+              backgroundColor: loading ? '#ccc' : '#61dafb',
+              color: loading ? '#666' : 'white',
+              cursor: loading ? 'not-allowed' : 'pointer'
+            }}
+          >
+            {loading ? 'Processing...' : 'Summarize'}
+          </button>
+        </form>
+
+        {error && (
+          <div style={{ 
+            color: '#ff6b6b', 
+            margin: '20px', 
+            padding: '10px',
+            backgroundColor: '#ffe0e0',
+            borderRadius: '4px',
+            maxWidth: '800px'
+          }}>
+            {error}
           </div>
-          
-          <div style={{marginTop: '20px'}}>
-            <h3>Full Transcript</h3>
-            <textarea 
-              value={result.transcript} 
-              readOnly 
-              rows="10" 
-              style={{width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px'}}
-            />
+        )}
+
+        {result && (
+          <div style={{ 
+            textAlign: 'left', 
+            width: '900px', 
+            margin: '10px 10px 10px 10px',
+            backgroundColor: '#f5f5f5',
+            padding: '20px',
+            borderRadius: '8px',
+            color: '#333'
+          }}>
+            <h3>Results</h3>
+            {result.title && <p><strong>Title:</strong> {result.title}</p>}
+            {result.duration && <p><strong>Processing Time:</strong> {result.duration}</p>}
+            <p><strong>Original Word Count:</strong> {result.word_count}</p>
+            <p><strong>Summary Word Count:</strong> {result.word_count_summary}</p>
+
+            <div style={{ marginTop: '20px' }}>
+              <h3>AI Summary</h3>
+              <textarea
+                value={result.summary}
+                readOnly
+                rows="8"
+                style={{ 
+                  width: '90%', 
+                  padding: '10px', 
+                  border: '1px solid #ccc', 
+                  borderRadius: '4px',
+                  fontFamily: 'inherit',
+                  fontSize: '14px',
+                  lineHeight: '1.5'
+                }}
+              />
+            </div>
+
+            <div style={{ marginTop: '20px' }}>
+              <h3>Full Transcript</h3>
+              <textarea
+                value={result.transcript}
+                readOnly
+                rows="12"
+                style={{ 
+                  width: '90%', 
+                  padding: '10px', 
+                  border: '1px solid #ccc', 
+                  borderRadius: '4px',
+                  fontFamily: 'inherit',
+                  fontSize: '12px',
+                  lineHeight: '1.4'
+                }}
+              />
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
